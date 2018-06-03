@@ -12,7 +12,6 @@ import java.util.List;
 public abstract class GameElement implements Active {
 
     protected float x, y;
-    protected boolean collectable = false;
     protected boolean active = true;
 
     public void display(Batch batch) {
@@ -74,8 +73,8 @@ public abstract class GameElement implements Active {
         // nothing by default
     }
 
-    public boolean isCollectable() {
-        return collectable;
+    public void collideWith(Plane plane) {
+        // nothing by default
     }
 
     public boolean isActive() {

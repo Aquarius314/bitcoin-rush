@@ -13,10 +13,13 @@ public class ElementsGenerator {
 
     private final List<GameElement> elements;
     private Random random;
+    private long time;
+    private long penguinTimeRate = 3000;
 
     public ElementsGenerator(List<GameElement> elements) {
         this.elements = elements;
         random = new Random();
+        time = System.currentTimeMillis();
     }
 
     public void generate() {
@@ -27,12 +30,8 @@ public class ElementsGenerator {
         }
     }
 
-    public void generateClouds() {
-//        don't
-//        elements.add(new Cloud(100, 2000));
-//        elements.add(new Cloud(200, -200));
-//        elements.add(new Cloud(300, 800));
-//        elements.add(new Cloud(400, 1400));
+    public void generatePenguins() {
+        elements.add(new Penguin(200, 1400));
     }
 
     public void generateDiamonds() {
@@ -45,6 +44,15 @@ public class ElementsGenerator {
     public void generateNewDiamonds(int number) {
         for (int i = 0; i < number; i++) {
             elements.add(new Diamond(randomX(), randomY()));
+        }
+    }
+
+    public void autogenerateNewPenguins() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - time > penguinTimeRate) {
+            time = currentTime;
+            penguinTimeRate = random.nextInt()%1000 + 2500;
+            elements.add(new Penguin(randomX(), randomY()));
         }
     }
 

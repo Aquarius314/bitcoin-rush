@@ -2,6 +2,8 @@ package com.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.ui.UserInterfaceManager;
 
@@ -10,9 +12,11 @@ import java.util.List;
 public class Plane extends GameElement {
 
     private boolean flyingLeft = true;
-    protected float speed = 0;
+    private float speed = 0;
+    private final float MAX_ROTATION = 80;
     private static Texture image;
     private UserInterfaceManager uiManager;
+    private Sprite imgSprite;
 
     public Plane(int x, int y) {
         this.x = x;
@@ -21,6 +25,27 @@ public class Plane extends GameElement {
 
     public void setUiManager(UserInterfaceManager uiManager) {
         this.uiManager = uiManager;
+    }
+
+    public UserInterfaceManager getUiManager() {
+        return uiManager;
+    }
+
+    @Override
+    public void display(Batch batch) {
+        if (getImage() == null) {
+            loadPicture();
+        }
+        float rotation = -speed*8;
+        if (rotation < -MAX_ROTATION) {
+            rotation = -MAX_ROTATION;
+        }
+        if (rotation > MAX_ROTATION) {
+            rotation = MAX_ROTATION;
+        }
+        imgSprite.setRotation(rotation);
+        imgSprite.setPosition(getCenterX(), getCenterY());
+        imgSprite.draw(batch);
     }
 
     public void displayCollider(ShapeRenderer renderer) {
@@ -33,9 +58,7 @@ public class Plane extends GameElement {
         move();
         checkWalls();
         for(GameElement element : otherElements) {
-            if (element.isCollectable()) {
-                checkCollisionWith(element);
-            }
+            checkCollisionWith(element);
         }
     }
 
@@ -44,14 +67,14 @@ public class Plane extends GameElement {
         double ownRadius = (getWidth()+getHeight())/4d;
         double distance = Math.sqrt(Math.pow(x - element.getX(), 2) + Math.pow(y - element.getY(), 2));
         if (distance < elementRadius + ownRadius) {
-            collect(element);
+            element.collideWith(this);
         }
     }
 
-    private void collect(GameElement element) {
-        element.setActive(false);
-        uiManager.getPointsInfo().addPoint();
-    }
+//    private void collideWith(GameElement element) {
+//        element.setActive(false);
+//        uiManager.getPointsInfo().addPoint();
+//    }
 
     private void move() {
         float breakingSpeed = 0.2f;
@@ -73,7 +96,7 @@ public class Plane extends GameElement {
     }
 
     private void checkWalls() {
-        if (getCenterX() <= 0 || getCenterX() >= Gdx.graphics.getWidth()-getWidth()) {
+        if (getCenterX() <= 5 || getCenterX() >= Gdx.graphics.getWidth()-getWidth() - 5) {
             x = Gdx.graphics.getWidth()/2;
         }
     }
@@ -86,6 +109,7 @@ public class Plane extends GameElement {
     @Override
     protected void loadPicture() {
         image = new Texture("plane.png");
+        imgSprite = new Sprite(image);
     }
 
     public void turn() {

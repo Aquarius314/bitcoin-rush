@@ -40,7 +40,7 @@ public class JumpGame extends ApplicationAdapter {
         gameElements.add(plane);
         gameElements.add(new Spikes());
         generator = new ElementsGenerator(gameElements);
-        generator.generateClouds();
+        generator.generatePenguins();
         generator.generateDiamonds();
 
 		uiManager = new UserInterfaceManager(plane);
@@ -88,6 +88,7 @@ public class JumpGame extends ApplicationAdapter {
         }
         gameElements.removeAll(inactives);
 	    generator.generateNewDiamonds(inactives.size());
+	    generator.autogenerateNewPenguins();
     }
 
 	private void handleTouch() {

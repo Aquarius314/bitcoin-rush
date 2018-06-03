@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class PointsInfo implements UserInterface {
 
     private int points = 0;
-    BitmapFont font;
+    private BitmapFont font;
 
     public PointsInfo() {
         font = new BitmapFont();
@@ -24,11 +24,15 @@ public class PointsInfo implements UserInterface {
         points++;
     }
 
+    public void clearPoints() {
+        points = 0;
+    }
+
     @Override
     public void display(ShapeRenderer shapeRenderer, Batch batch) {
         Color color = batch.getColor();
         batch.setColor(Color.YELLOW);
-        font.draw(batch, "POINTS: " + points, 10, Gdx.graphics.getHeight() - 100);
+        font.draw(batch, "$: " + points, 10, Gdx.graphics.getHeight() - 100);
         batch.setColor(color);
     }
 }

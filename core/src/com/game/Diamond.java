@@ -12,7 +12,12 @@ public class Diamond extends Flying {
 
     public Diamond(int x, int y) {
         super(x, y);
-        collectable = true;
+    }
+
+    @Override
+    public void collideWith(Plane plane) {
+        plane.getUiManager().getPointsInfo().addPoint();
+        active = false;
     }
 
     @Override
@@ -22,6 +27,6 @@ public class Diamond extends Flying {
 
     @Override
     protected void loadPicture() {
-        image = new Texture("diamond.png");
+        image = new Texture("btc.png");
     }
 }
