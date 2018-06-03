@@ -12,12 +12,11 @@ public class Spikes extends GameElement {
 
     private static Texture image;
 
-    public Spikes() {
-        image = new Texture(getTextureFilePath());
-    }
-
     @Override
     public void display(Batch batch) {
+        if (image == null) {
+            loadPicture();
+        }
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         int displays = height/100 + 1;
@@ -33,7 +32,7 @@ public class Spikes extends GameElement {
     }
 
     @Override
-    protected String getTextureFilePath() {
-        return "spikes.png";
+    protected void loadPicture() {
+        image = new Texture("spikes.png");
     }
 }

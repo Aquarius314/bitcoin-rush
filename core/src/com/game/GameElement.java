@@ -3,6 +3,8 @@ package com.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import java.util.List;
+
 /**
  * Created by jakub on 02.06.18.
  */
@@ -10,8 +12,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 public abstract class GameElement implements Active {
 
     protected float x, y;
+    protected boolean collectable = false;
+    protected boolean active = true;
 
     public void display(Batch batch) {
+        if (getImage() == null) {
+            loadPicture();
+        }
         batch.draw(getImage(), getCenterX(), getCenterY());
     }
 
@@ -19,13 +26,13 @@ public abstract class GameElement implements Active {
         getImage().dispose();
     }
 
-    public void actions() {
+    public void actions(List<GameElement> otherElements) {
         // do nothing by default
     }
 
     protected abstract Texture getImage();
 
-    protected abstract String getTextureFilePath();
+    protected abstract void loadPicture();
 
     public float getWidth() {
         return getImage().getWidth();
@@ -57,5 +64,25 @@ public abstract class GameElement implements Active {
 
     public int getCenterY() {
         return (int)(y - getHeight()/2);
+    }
+
+    public boolean needsRefreshing() {
+        return getY() + getHeight() < 0;
+    }
+
+    public void refresh() {
+        // nothing by default
+    }
+
+    public boolean isCollectable() {
+        return collectable;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
