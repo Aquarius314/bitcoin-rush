@@ -1,44 +1,41 @@
 package com.game;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.game.utils.Renderer;
+import com.jump.JumpGame;
 
 import java.util.List;
-
-/**
- * Created by jakub on 02.06.18.
- */
 
 public abstract class GameElement implements Active {
 
     protected float x, y;
     protected boolean active = true;
+    protected JumpGame game;
+    protected String imageName;
 
-    public void display(Batch batch) {
-        if (getImage() == null) {
-            loadPicture();
-        }
-        batch.draw(getImage(), getCenterX(), getCenterY());
+    public GameElement(JumpGame game, float x, float y) {
+        this.game = game;
+        this.x = x;
+        this.y = y;
     }
 
-    public void dispose() {
-        getImage().dispose();
+    public void display(Renderer renderer) {
+        renderer.image(getImageName(), getCenterX(), getCenterY());
     }
 
     public void actions(List<GameElement> otherElements) {
         // do nothing by default
     }
 
-    protected abstract Texture getImage();
-
-    protected abstract void loadPicture();
+    protected String getImageName() {
+        return imageName;
+    }
 
     public float getWidth() {
-        return getImage().getWidth();
+        return game.getRenderer().getImage(getImageName()).getWidth();
     }
 
     public float getHeight() {
-        return getImage().getHeight();
+        return game.getRenderer().getImage(getImageName()).getHeight();
     }
 
     public float getX() {

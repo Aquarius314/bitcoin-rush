@@ -2,10 +2,10 @@ package com.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.ui.UserInterfaceManager;
+import com.game.utils.Renderer;
+import com.jump.JumpGame;
 
 import java.util.List;
 
@@ -14,13 +14,13 @@ public class Plane extends GameElement {
     private boolean flyingLeft = true;
     private float speed = 0;
     private final float MAX_ROTATION = 80;
-    private static Texture image;
     private UserInterfaceManager uiManager;
     private Sprite imgSprite;
+    private JumpGame game;
 
-    public Plane(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Plane(JumpGame game, int x, int y) {
+        super(game, x, y);
+        imageName = "plane.png";
     }
 
     public void setUiManager(UserInterfaceManager uiManager) {
@@ -32,25 +32,19 @@ public class Plane extends GameElement {
     }
 
     @Override
-    public void display(Batch batch) {
-        if (getImage() == null) {
-            loadPicture();
-        }
+    public void display(Renderer renderer) {
         float rotation = -speed*8;
         if (rotation < -MAX_ROTATION) {
             rotation = -MAX_ROTATION;
-        }
-        if (rotation > MAX_ROTATION) {
+        } else if (rotation > MAX_ROTATION) {
             rotation = MAX_ROTATION;
+        }
+        if (imgSprite == null) {
+            imgSprite = new Sprite(renderer.getImage(imageName));
         }
         imgSprite.setRotation(rotation);
         imgSprite.setPosition(getCenterX(), getCenterY());
-        imgSprite.draw(batch);
-    }
-
-    public void displayCollider(ShapeRenderer renderer) {
-        renderer.setColor(0, 1, 0, 1);
-        renderer.circle(getCenterX()+getWidth()/2, getCenterY()+getHeight()/2, getWidth()/2);
+        renderer.sprite(imgSprite);
     }
 
     @Override
@@ -70,11 +64,6 @@ public class Plane extends GameElement {
             element.collideWith(this);
         }
     }
-
-//    private void collideWith(GameElement element) {
-//        element.setActive(false);
-//        uiManager.getPointsInfo().addPoint();
-//    }
 
     private void move() {
         float breakingSpeed = 0.2f;
@@ -97,22 +86,21 @@ public class Plane extends GameElement {
 
     private void checkWalls() {
         if (getCenterX() <= 5 || getCenterX() >= Gdx.graphics.getWidth()-getWidth() - 5) {
-            x = Gdx.graphics.getWidth()/2;
+            hitTheWall();
         }
     }
 
-    @Override
-    protected Texture getImage() {
-        return image;
-    }
-
-    @Override
-    protected void loadPicture() {
-        image = new Texture("plane.png");
-        imgSprite = new Sprite(image);
+    private void hitTheWall() {
+        uiManager.getInGameMenu().setHitBySpikes(true);
+        active = false;
     }
 
     public void turn() {
         flyingLeft = !flyingLeft;
+    }
+
+    public void die() {
+        active = false;
+        getUiManager().getInGameMenu().setHitByPenguin(true);
     }
 }

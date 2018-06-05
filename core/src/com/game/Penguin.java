@@ -1,7 +1,8 @@
 package com.game;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.game.utils.Renderer;
+import com.jump.JumpGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,44 +14,42 @@ import java.util.List;
 public class Penguin extends Flying {
 
     private long timing;
-    private long frameTime = 500;
+    private long frameTime = 1000;
     private int state = 0;
-    private static List<Texture> images;
+    private int statesNumber = 2;
 
-    public Penguin(int x, int y) {
-        super(x, y);
+    public Penguin(JumpGame game, int x, int y) {
+        super(game, x, y);
         timing = System.currentTimeMillis();
-        if (images == null) {
-            loadPicture();
-        }
+        imageName = "penguin";
     }
 
     @Override
     public void collideWith(Plane plane) {
         plane.getUiManager().getPointsInfo().clearPoints();
         active = false;
+        plane.die();
+        game.getSoundManager().getAsset("penguin_rip1.mp3").play();
     }
 
     @Override
-    public void display(Batch batch) {
+    public void display(Renderer renderer) {
         long currentTime = System.currentTimeMillis();
-        if (currentTime - timing > frameTime) {
+        if (currentTime - timing > getFloppingRate()) {
             timing = currentTime;
             state++;
-            state = state%images.size();
+            state = state%statesNumber;
         }
-        batch.draw(getImage(), getCenterX(), getCenterY());
+        renderer.image(getImageName(), getCenterX(), getCenterY());
     }
 
     @Override
-    protected Texture getImage() {
-        return images.get(state);
+    protected String getImageName() {
+        return imageName + state + ".png";
     }
 
-    @Override
-    protected void loadPicture() {
-        images = new ArrayList<Texture>();
-        images.add(new Texture("penguin1.png"));
-        images.add(new Texture("penguin2.png"));
+    private double getFloppingRate() {
+        return frameTime/speed;
     }
+
 }
