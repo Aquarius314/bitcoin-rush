@@ -1,15 +1,6 @@
-package com.game;
+package com.game.elements;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.jump.JumpGame;
-
-import java.util.ArrayList;
-import java.util.Random;
-
-/**
- * Created by jakub on 02.06.18.
- */
+import com.game.JumpGame;
 
 public class Cloud extends Flying {
 

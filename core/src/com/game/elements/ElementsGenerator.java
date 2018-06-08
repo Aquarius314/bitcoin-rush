@@ -1,7 +1,7 @@
-package com.game;
+package com.game.elements;
 
 import com.badlogic.gdx.Gdx;
-import com.jump.JumpGame;
+import com.game.JumpGame;
 
 import java.util.List;
 import java.util.Random;

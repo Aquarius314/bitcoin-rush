@@ -30,13 +30,20 @@ public abstract class Button {
 
     public boolean touched(float clickX, float clickY) {
         // transform because it's upside-down
-        clickX = Gdx.graphics.getWidth() - clickX;
         clickY = Gdx.graphics.getHeight() - clickY;
+        System.out.println("");
+        System.out.println(clickX);
+        System.out.println(clickY);
+        System.out.println("Space for button:");
+        System.out.println(x + " " + (x+width));
+        System.out.println(y + " " + (y+height));
         if (clickX > x && clickX < x + width) {
             if (clickY > y && clickY < y + height) {
+                System.out.println("YES");
                 return true;
             }
         }
+        System.out.println("NOPE");
         return false;
     }
 

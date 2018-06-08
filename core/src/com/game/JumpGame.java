@@ -1,14 +1,13 @@
-package com.jump;
+package com.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.game.ElementsGenerator;
-import com.game.GameElement;
-import com.game.Plane;
-import com.game.Spikes;
+import com.game.elements.GameElement;
+import com.game.elements.Plane;
+import com.game.elements.Spikes;
 import com.game.ui.GameInputProcessor;
 import com.game.ui.UserInterfaceManager;
 import com.game.utils.Renderer;
@@ -21,12 +20,12 @@ public class JumpGame extends ApplicationAdapter {
 
     private Renderer renderer;
 
-    AdHandler handler;
-    private ElementsGenerator generator;
+    private AdHandler handler;
+    private com.game.elements.ElementsGenerator generator;
     private int gameState = 1;  // 1 - GAME, 2 - MAIN MENU, 3 - DEAD, 4 - PAUSED
-	private List<GameElement> gameElements;
+	private List<com.game.elements.GameElement> gameElements;
 
-    private Plane plane;
+    private com.game.elements.Plane plane;
     private UserInterfaceManager uiManager;
     private SoundManager soundManager;
 	private GameInputProcessor gameInputProcessor;
@@ -46,15 +45,15 @@ public class JumpGame extends ApplicationAdapter {
 	public void initGame() {
         Gdx.input.setInputProcessor(gameInputProcessor);
 	    gameState = 1;
-        gameElements = new ArrayList<GameElement>();
+        gameElements = new ArrayList<com.game.elements.GameElement>();
         plane = new Plane(this, Gdx.graphics.getWidth()/2, 50);
         gameElements.add(plane);
         gameElements.add(new Spikes(this, 0, 0));
-        generator = new ElementsGenerator(this, gameElements);
+        generator = new com.game.elements.ElementsGenerator(this, gameElements);
         generator.generatePenguins();
         generator.generateDiamonds();
 
-        uiManager = new UserInterfaceManager(plane);
+        uiManager = new UserInterfaceManager(this);
         uiManager.getInGameMenu().setGame(this);
         plane.setUiManager(uiManager);
     }
@@ -84,7 +83,7 @@ public class JumpGame extends ApplicationAdapter {
                 playerDeadProcess();
                 break;
             case 4: // paused
-                gamePauseProcess();
+                gamePausedProcess();
                 break;
         }
     }
@@ -99,26 +98,42 @@ public class JumpGame extends ApplicationAdapter {
     }
 
     private void playerDeadProcess() {
-        System.out.println("PROCESS");
         renderGame();
         uiManager.getInGameMenu().display(renderer);
     }
 
-    private void gamePauseProcess() {
+    private void gamePausedProcess() {
         renderGame();
+    }
+
+    public void pauseGame() {
+        gameState = 4;
+    }
+
+    public UserInterfaceManager getUiManager() {
+	    return uiManager;
+    }
+
+    public int getGameState() {
+	    return gameState;
+    }
+
+    public void resumeGame() {
+	    gameState = 1;
+	    Gdx.input.setInputProcessor(gameInputProcessor);
     }
 
     private void renderGame() {
         Gdx.gl.glClearColor(0.4f, 0.4f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        for(GameElement element : gameElements) {
+        for(com.game.elements.GameElement element : gameElements) {
             element.display(renderer);
         }
         uiManager.display(renderer);
     }
 
 	private void calculate() {
-        for (GameElement element : gameElements) {
+        for (com.game.elements.GameElement element : gameElements) {
             element.actions(gameElements);
         }
         generator.generate();
@@ -126,7 +141,7 @@ public class JumpGame extends ApplicationAdapter {
 	}
 
 	private void removeInactiveElements() {
-	    ArrayList<GameElement> inactives = new ArrayList<GameElement>();
+	    ArrayList<com.game.elements.GameElement> inactives = new ArrayList<com.game.elements.GameElement>();
 	    for (GameElement element : gameElements) {
 	        if (!element.isActive()) {
 	            inactives.add(element);
@@ -137,16 +152,16 @@ public class JumpGame extends ApplicationAdapter {
 	    generator.autogenerateNewPenguins();
     }
 
-	public void handleTouch() {
-	    plane.turn();
-    }
-
     public SoundManager getSoundManager() {
 	    return soundManager;
     }
 
     public Renderer getRenderer() {
         return renderer;
+    }
+
+    public Plane getPlane() {
+	    return plane;
     }
 
 	@Override

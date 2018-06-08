@@ -1,6 +1,6 @@
-package com.game;
+package com.game.elements;
 
-import com.jump.JumpGame;
+import com.game.JumpGame;
 
 public class Diamond extends Flying {
 
@@ -13,5 +13,6 @@ public class Diamond extends Flying {
     public void collideWith(Plane plane) {
         plane.getUiManager().getPointsInfo().addPoint();
         active = false;
+        game.getSoundManager().getAsset("coin.mp3").play();
     }
 }

@@ -1,7 +1,8 @@
-package com.game;
+package com.game.elements;
 
+import com.game.Active;
+import com.game.JumpGame;
 import com.game.utils.Renderer;
-import com.jump.JumpGame;
 
 import java.util.List;
 

@@ -15,7 +15,7 @@ public class Renderer {
 
     private Batch batch;
     private ShapeRenderer shapeRenderer;
-    private BitmapFont font = new BitmapFont();
+    private BitmapFont font;
 
     private ImageManager imagesManager;
 
@@ -23,6 +23,8 @@ public class Renderer {
         this.batch = batch;
         this.shapeRenderer = shapeRenderer;
         imagesManager = new ImageManager();
+        font = new BitmapFont();
+        font.setColor(Color.BLACK);
     }
 
     public void changeColor(Color color) {
@@ -61,11 +63,16 @@ public class Renderer {
         batch.end();
     }
 
+    public void text(String text, float x, float y, float scale) {
+        font.getData().setScale(scale);
+        text(text, x, y);
+    }
+
     public void frame(float x, float y, float width, float height, int lineWidth) {
         rect(x, y, width, lineWidth);
         rect(x, y, lineWidth, height);
         rect(x, y+height-lineWidth, width, lineWidth);
-        rect(x+width-10, y, lineWidth, height);
+        rect(x+width-lineWidth, y, lineWidth, height);
     }
 
     public void dispose() {

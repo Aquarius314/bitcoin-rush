@@ -1,14 +1,8 @@
-package com.game;
+package com.game.elements;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.game.JumpGame;
 import com.game.utils.Renderer;
-import com.jump.JumpGame;
-
-/**
- * Created by jakub on 02.06.18.
- */
 
 public class Spikes extends GameElement {
 

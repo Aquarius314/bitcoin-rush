@@ -1,11 +1,7 @@
-package com.game;
+package com.game.elements;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.game.JumpGame;
 import com.game.utils.Renderer;
-import com.jump.JumpGame;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jakub on 03.06.18.
@@ -26,7 +22,6 @@ public class Penguin extends Flying {
 
     @Override
     public void collideWith(Plane plane) {
-        plane.getUiManager().getPointsInfo().clearPoints();
         active = false;
         plane.die();
         game.getSoundManager().getAsset("penguin_rip1.mp3").play();

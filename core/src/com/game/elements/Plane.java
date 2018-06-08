@@ -1,11 +1,10 @@
-package com.game;
+package com.game.elements;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.game.JumpGame;
 import com.game.ui.UserInterfaceManager;
 import com.game.utils.Renderer;
-import com.jump.JumpGame;
 
 import java.util.List;
 

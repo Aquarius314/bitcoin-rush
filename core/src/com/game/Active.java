@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface Active {
 
-    void actions(List<GameElement> otherElements);
+    void actions(List<com.game.elements.GameElement> otherElements);
 }

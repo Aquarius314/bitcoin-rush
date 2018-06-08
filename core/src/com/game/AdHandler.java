@@ -1,4 +1,4 @@
-package com.jump;
+package com.game;
 
 /**
  * Created by jakub on 02.06.18.

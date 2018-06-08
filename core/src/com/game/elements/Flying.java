@@ -1,14 +1,10 @@
-package com.game;
+package com.game.elements;
 
 import com.badlogic.gdx.Gdx;
-import com.jump.JumpGame;
+import com.game.JumpGame;
 
 import java.util.List;
 import java.util.Random;
-
-/**
- * Created by jakub on 02.06.18.
- */
 
 public abstract class Flying extends GameElement {
 

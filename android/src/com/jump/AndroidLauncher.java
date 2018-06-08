@@ -6,8 +6,9 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.game.JumpGame;
 
-public class AndroidLauncher extends AndroidApplication implements AdHandler {
+public class AndroidLauncher extends AndroidApplication implements com.game.AdHandler {
 
     protected AdManager adManager;
 

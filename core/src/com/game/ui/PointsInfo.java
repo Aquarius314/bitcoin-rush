@@ -15,8 +15,12 @@ public class PointsInfo implements UserInterface {
         points = 0;
     }
 
+    public int getPoints() {
+        return points;
+    }
+
     @Override
     public void display(Renderer renderer) {
-        renderer.text("$: " + points, 10, Gdx.graphics.getHeight() - 100);
+        renderer.text("$: " + points, 10, Gdx.graphics.getHeight() - 100, 3);
     }
 }

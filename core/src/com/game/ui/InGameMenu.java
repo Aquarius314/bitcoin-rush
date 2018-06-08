@@ -3,9 +3,8 @@ package com.game.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.game.utils.Renderer;
-import com.jump.JumpGame;
+import com.game.JumpGame;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -84,14 +83,19 @@ public class InGameMenu implements UserInterface {
         renderer.frame(frameX, frameY, frameSize, frameSize, 10);
         if (hitByPenguin) {
             avoidPenguins.display(renderer);
+            displayScore(renderer);
         } else if (hitBySpikes){
             dontHitTheSpikes.display(renderer);
-        } else if (paused) {
-            // TODO message to resume game
+            displayScore(renderer);
         }
         for(Button button : buttons) {
             button.display(renderer);
         }
+    }
+
+    private void displayScore(Renderer renderer) {
+        int score = game.getUiManager().getPointsInfo().getPoints();
+        renderer.text("Your final score was: " + score, 10, 100, 3);
     }
 
     public void handleTouch(float touchX, float touchY) {

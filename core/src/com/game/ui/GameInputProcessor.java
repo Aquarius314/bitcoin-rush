@@ -1,7 +1,7 @@
 package com.game.ui;
 
 import com.badlogic.gdx.InputProcessor;
-import com.jump.JumpGame;
+import com.game.JumpGame;
 
 public class GameInputProcessor implements InputProcessor {
 
@@ -28,7 +28,13 @@ public class GameInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        game.handleTouch();
+        if (!game.getUiManager().checkButtonsClick(screenX, screenY)) {
+            if (game.getGameState() == 1) {
+                game.getPlane().turn();
+            } else {
+                game.resumeGame();
+            }
+        }
         return false;
     }
 
