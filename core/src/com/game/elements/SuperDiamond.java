@@ -31,9 +31,7 @@ public class SuperDiamond extends Diamond {
 
     @Override
     protected void playSound() {
-        Sound sound = game.getSoundManager().getAsset("coin.mp3");
-        long id = sound.play();
-        sound.setPitch(id, 0.5f);
+        game.getSoundManager().playSound("coin.mp3", 0.5f);
     }
 
     @Override

@@ -5,10 +5,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.game.elements.ElementsGenerator;
 import com.game.elements.GameElement;
 import com.game.elements.Penguin;
 import com.game.elements.Plane;
 import com.game.elements.Spikes;
+import com.game.storage.PreferencesManager;
 import com.game.ui.GameInputProcessor;
 import com.game.ui.UserInterfaceManager;
 import com.game.utils.Renderer;
@@ -32,6 +34,7 @@ public class JumpGame extends ApplicationAdapter {
     private SoundManager soundManager;
 	private GameInputProcessor gameInputProcessor;
 
+	private int bestScore;
 	public JumpGame(AdHandler handler) {
 	    this.handler = handler;
     }
@@ -46,6 +49,7 @@ public class JumpGame extends ApplicationAdapter {
 
 	public void initGame() {
         Gdx.input.setInputProcessor(gameInputProcessor);
+        bestScore = PreferencesManager.loadScore();
 	    gameState = 1;
         gameElements = new ArrayList<com.game.elements.GameElement>();
         plane = new Plane(this, Gdx.graphics.getWidth()/2, 50);
@@ -63,14 +67,22 @@ public class JumpGame extends ApplicationAdapter {
 	@Override
 	public void render () {
         controllGameState();
-	}
+    }
 
 	private void controllGameState() {
         if (gameState == 1 && plane != null && !plane.isActive()) {
-            gameState = 3;
-            Gdx.input.setInputProcessor(uiManager.getInGameMenu().getInputProcessor());
+            finishGame();
         }
         processGame();
+    }
+
+    private void finishGame() {
+        Gdx.input.setInputProcessor(uiManager.getInGameMenu().getInputProcessor());
+        gameState = 3;
+        int currentScore = uiManager.getPointsInfo().getPoints();
+        if (currentScore > bestScore) {
+            PreferencesManager.saveScore(currentScore);
+        }
     }
 
     private void processGame() {
@@ -173,6 +185,14 @@ public class JumpGame extends ApplicationAdapter {
             }
         }
         return penguins;
+    }
+
+    public int getBestScore() {
+	    return bestScore;
+    }
+
+    public ElementsGenerator getElementsGenerator() {
+	    return generator;
     }
 
 	@Override

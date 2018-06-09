@@ -13,7 +13,7 @@ public class ElementsGenerator {
     private long diamondsTime;
     private long diamondsTimeRate = 2000;
     private long penguinsTime;
-    private long penguinTimeRate = 6000;
+    private long penguinTimeRate = 5000;
     private final int FIRST_PENGUIN_TIME = 6000;
     private final int FIRST_SUPERDIAMOND_TIME = 12000;
     private boolean startGeneratingSuperDiamonds = false;
@@ -47,7 +47,7 @@ public class ElementsGenerator {
         elements.add(new Diamond(game, 400, 1800));
     }
 
-    public void generateNewDiamonds(int number) {
+    private void generateNewDiamonds(int number) {
         for (int i = 0; i < number; i++) {
             if (random.nextInt()%8 == 1 && startedGeneratingSuperDiamonds()) {
                 elements.add(new SuperDiamond(game, randomX(), randomY()));
@@ -55,14 +55,17 @@ public class ElementsGenerator {
                 elements.add(new Diamond(game, randomX(), randomY()));
             }
         }
-        diamondsTimeRate = Math.max(diamondsTimeRate - 50, 400);
+        diamondsTimeRate = Math.max(diamondsTimeRate - 10, 400);
     }
 
-    public void generateNewPenguins(int number) {
+    public void speedUpPenguinGeneration() {
+        penguinTimeRate = Math.max(penguinTimeRate - 100, 400);
+    }
+
+    private void generateNewPenguins(int number) {
         for (int i = 0; i < number; i++) {
             elements.add(new Penguin(game, randomX(), randomY()));
         }
-        penguinTimeRate = Math.max(penguinTimeRate - 50, 400);
     }
 
     private boolean startedGeneratingSuperDiamonds() {
@@ -90,7 +93,7 @@ public class ElementsGenerator {
     }
 
     private int randomX() {
-        return random.nextInt()%(Gdx.graphics.getWidth() - 200) + 100;
+        return random.nextInt()%(Gdx.graphics.getWidth() - 300) + 200;
     }
 
     private int randomY() {

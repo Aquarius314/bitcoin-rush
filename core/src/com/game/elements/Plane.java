@@ -1,12 +1,14 @@
 package com.game.elements;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.game.JumpGame;
 import com.game.ui.UserInterfaceManager;
 import com.game.utils.Renderer;
 
 import java.util.List;
+import java.util.Random;
 
 public class Plane extends GameElement {
 
@@ -20,6 +22,7 @@ public class Plane extends GameElement {
     public Plane(JumpGame game, int x, int y) {
         super(game, x, y);
         imageName = "plane.png";
+        this.game = game;
     }
 
     public void setUiManager(UserInterfaceManager uiManager) {
@@ -92,6 +95,7 @@ public class Plane extends GameElement {
     private void hitTheWall() {
         uiManager.getInGameMenu().setHitBySpikes(true);
         active = false;
+        game.getSoundManager().playSound("you_died.mp3", 1.2f);
     }
 
     public void turn() {

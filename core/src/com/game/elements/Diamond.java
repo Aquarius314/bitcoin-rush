@@ -14,9 +14,10 @@ public class Diamond extends Flying {
         plane.getUiManager().getPointsInfo().addPoint();
         active = false;
         playSound();
+        game.getElementsGenerator().speedUpPenguinGeneration();
     }
 
     protected void playSound() {
-        game.getSoundManager().getAsset("coin.mp3").play();
+        game.getSoundManager().playSound("coin.mp3");
     }
 }

@@ -5,14 +5,15 @@ import com.game.utils.Renderer;
 
 public class PointsInfo implements UserInterface {
 
+    private int bestScore;
     private int points = 0;
+
+    public PointsInfo(int bestScore) {
+        this.bestScore = bestScore;
+    }
 
     public void addPoint() {
         points++;
-    }
-
-    public void clearPoints() {
-        points = 0;
     }
 
     public int getPoints() {
@@ -21,6 +22,6 @@ public class PointsInfo implements UserInterface {
 
     @Override
     public void display(Renderer renderer) {
-        renderer.text("$: " + points, 10, Gdx.graphics.getHeight() - 100);
+        renderer.text("SCORE: " + points + "   BEST: " + bestScore, 10, Gdx.graphics.getHeight() - 100);
     }
 }

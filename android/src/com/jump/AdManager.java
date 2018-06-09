@@ -75,7 +75,6 @@ public class AdManager {
                 int visibility = adView.getVisibility();
                 adView.setVisibility(View.GONE);
                 adView.setVisibility(visibility);
-                System.out.println("Ad loaded successfully");
             }
         });
         return adView;
@@ -88,5 +87,17 @@ public class AdManager {
         adParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         adParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         return adParams;
+    }
+
+    public void pause() {
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    public void resume() {
+        if (adView != null) {
+            adView.resume();
+        }
     }
 }

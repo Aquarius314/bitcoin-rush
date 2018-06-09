@@ -28,10 +28,8 @@ public class Penguin extends Flying {
     }
 
     protected void playSound() {
-        Sound sound = game.getSoundManager().getAsset("penguin_rip1.mp3");
-        long id = sound.play();
-        float pitch = (new Random().nextInt()%6)/10.0f;
-        sound.setPitch(id, 1.2f + pitch);
+        float pitch = (new Random().nextInt()%6)/10.0f + 1.2f;
+        game.getSoundManager().playSound("penguin_rip1.mp3", pitch);
     }
 
     @Override

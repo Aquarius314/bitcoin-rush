@@ -33,4 +33,16 @@ public class AndroidLauncher extends AndroidApplication implements com.game.AdHa
     public void showAds(boolean show) {
         adManager.handler.sendEmptyMessage(show ? adManager.SHOW_ADS : adManager.HIDE_ADS);
     }
+
+    @Override
+    public void onPause() {
+        adManager.pause();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adManager.resume();
+    }
 }
