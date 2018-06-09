@@ -34,6 +34,8 @@ public class JumpGame extends ApplicationAdapter {
     private SoundManager soundManager;
 	private GameInputProcessor gameInputProcessor;
 
+	private boolean started = false;
+
 	private int bestScore;
 	public JumpGame(AdHandler handler) {
 	    this.handler = handler;
@@ -58,10 +60,13 @@ public class JumpGame extends ApplicationAdapter {
         generator = new com.game.elements.ElementsGenerator(this, gameElements);
         generator.generatePenguins();
         generator.generateDiamonds();
+        generator.generateClouds();
 
         uiManager = new UserInterfaceManager(this);
         uiManager.getInGameMenu().setGame(this);
         plane.setUiManager(uiManager);
+
+        started = false;
     }
 
 	@Override
@@ -193,6 +198,14 @@ public class JumpGame extends ApplicationAdapter {
 
     public ElementsGenerator getElementsGenerator() {
 	    return generator;
+    }
+
+    public boolean isStarted() {
+	    return started;
+    }
+
+    public void setStarted() {
+	    started = true;
     }
 
 	@Override

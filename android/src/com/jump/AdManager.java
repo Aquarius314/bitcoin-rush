@@ -13,14 +13,13 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
-/**
- * Created by jakub on 02.06.18.
- */
-
 public class AdManager {
 
     protected final String ADMOB_APP_UID = "ca-app-pub-5700920242888376~6807377351";
     protected final String TEST_AD_UID = "ca-app-pub-3940256099942544/6300978111";
+    protected final String PROD_AD_UID = "ca-app-pub-5700920242888376/6232662286";
+
+    private final boolean TEST = true;
 
     private AdView adView;
     private Activity parent;
@@ -54,10 +53,16 @@ public class AdManager {
     }
 
     public void loadAds() {
-        adView.loadAd(new AdRequest
-                .Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build());
+        if (TEST) {
+            adView.loadAd(new AdRequest
+                    .Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .build());
+        } else {
+            adView.loadAd(new AdRequest
+                    .Builder()
+                    .build());
+        }
     }
 
     public void setAdVisibility(boolean visible) {
@@ -68,7 +73,11 @@ public class AdManager {
         final AdView adView = new AdView(parent);
         adView.setAdSize(AdSize.SMART_BANNER);
         adView.setFitsSystemWindows(true);
-        adView.setAdUnitId(TEST_AD_UID);
+        if (TEST) {
+            adView.setAdUnitId(TEST_AD_UID);
+        } else {
+            adView.setAdUnitId(PROD_AD_UID);
+        }
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {

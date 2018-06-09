@@ -28,6 +28,7 @@ public class GameInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        game.setStarted();
         if (game.getGameState() == 1) {
             game.getPlane().turn();
         } else {

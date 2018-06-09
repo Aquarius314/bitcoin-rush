@@ -71,17 +71,19 @@ public class Plane extends GameElement {
         float breakingSpeed = 0.2f;
         float accelerateSpeed = 0.1f;
         x += speed;
-        if (flyingLeft) {
-            if (speed >= 0) {   // flying left, but speed to right: breaking
-                speed -= breakingSpeed;
-            } else {    // flying left, accelerating
-                speed -= accelerateSpeed;
-            }
-        } else {
-            if (speed <= 0 ) {  // flying right, but speed to left: breaking
-                speed += breakingSpeed;
-            } else {    // flying right, accelerating
-                speed += accelerateSpeed;
+        if (game.isStarted()) {
+            if (flyingLeft) {
+                if (speed >= 0) {   // flying left, but speed to right: breaking
+                    speed -= breakingSpeed;
+                } else {    // flying left, accelerating
+                    speed -= accelerateSpeed;
+                }
+            } else {
+                if (speed <= 0 ) {  // flying right, but speed to left: breaking
+                    speed += breakingSpeed;
+                } else {    // flying right, accelerating
+                    speed += accelerateSpeed;
+                }
             }
         }
     }

@@ -8,8 +8,10 @@ public class UserInterfaceManager {
     private PointsInfo pointsInfo;
     private InGameMenu inGameMenu;
     private AdsPanel adsPanel;
+    private JumpGame game;
 
     public UserInterfaceManager(JumpGame game) {
+        this.game = game;
         pointsInfo = new PointsInfo(game.getBestScore());
         inGameMenu = new InGameMenu();
         adsPanel = new AdsPanel();
@@ -18,6 +20,10 @@ public class UserInterfaceManager {
     public void display(Renderer renderer) {
         pointsInfo.display(renderer);
         adsPanel.display(renderer);
+        if (!game.isStarted()) {
+            renderer.text("Tap to turn the plane", 600);
+            renderer.text("Ready? TAP!", 300);
+        }
     }
 
     public PointsInfo getPointsInfo() {

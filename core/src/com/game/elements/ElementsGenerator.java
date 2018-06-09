@@ -32,7 +32,7 @@ public class ElementsGenerator {
     public void generate() {
         if (random.nextInt()%cloudProbability == 0) {
             elements.add(new Cloud(game, randomX(), randomY()));
-            cloudProbability = 500;
+            cloudProbability = 400;
         } else if (cloudProbability > 1){
             cloudProbability--;
         }
@@ -45,6 +45,10 @@ public class ElementsGenerator {
     public void generateDiamonds() {
         elements.add(new Diamond(game, 100, 1000));
         elements.add(new Diamond(game, 400, 1800));
+    }
+
+    public void generateClouds() {
+        elements.add(new Cloud(game, 300, 1200));
     }
 
     private void generateNewDiamonds(int number) {
