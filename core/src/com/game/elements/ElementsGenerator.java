@@ -10,25 +10,26 @@ public class ElementsGenerator {
 
     private final List<GameElement> elements;
     private Random random;
+    private long diamondsTime;
+    private long diamondsTimeRate = 2000;
     private long penguinsTime;
-    private final int FIRST_PENGUIN_TIME = 3000;
     private long penguinTimeRate = 6000;
+    private final int FIRST_PENGUIN_TIME = 6000;
+    private final int FIRST_SUPERDIAMOND_TIME = 12000;
+    private boolean startGeneratingSuperDiamonds = false;
     private int cloudProbability = 1000;
     private JumpGame game;
+    private long creationTime = System.currentTimeMillis();
 
     public ElementsGenerator(JumpGame game, List<GameElement> elements) {
         this.game = game;
         this.elements = elements;
         random = new Random();
+        diamondsTime = System.currentTimeMillis();
         penguinsTime = System.currentTimeMillis() + FIRST_PENGUIN_TIME;
     }
 
     public void generate() {
-        for(GameElement element : elements) {
-            if (element.needsRefreshing()) {
-               element.refresh();
-            }
-        }
         if (random.nextInt()%cloudProbability == 0) {
             elements.add(new Cloud(game, randomX(), randomY()));
             cloudProbability = 500;
@@ -42,24 +43,49 @@ public class ElementsGenerator {
     }
 
     public void generateDiamonds() {
-        elements.add(new Diamond(game, 100, 200));
-        elements.add(new Diamond(game, 400, 800));
-        elements.add(new Diamond(game, 300, 1200));
-        elements.add(new Diamond(game, 350, 1400));
+        elements.add(new Diamond(game, 100, 1000));
+        elements.add(new Diamond(game, 400, 1800));
     }
 
     public void generateNewDiamonds(int number) {
         for (int i = 0; i < number; i++) {
-            elements.add(new Diamond(game, randomX(), randomY()));
+            if (random.nextInt()%8 == 1 && startedGeneratingSuperDiamonds()) {
+                elements.add(new SuperDiamond(game, randomX(), randomY()));
+            } else {
+                elements.add(new Diamond(game, randomX(), randomY()));
+            }
         }
+        diamondsTimeRate = Math.max(diamondsTimeRate - 50, 400);
     }
 
-    public void autogenerateNewPenguins() {
+    public void generateNewPenguins(int number) {
+        for (int i = 0; i < number; i++) {
+            elements.add(new Penguin(game, randomX(), randomY()));
+        }
+        penguinTimeRate = Math.max(penguinTimeRate - 50, 400);
+    }
+
+    private boolean startedGeneratingSuperDiamonds() {
+        if (startGeneratingSuperDiamonds) {
+            return true;
+        } else {
+            if (System.currentTimeMillis() - creationTime > FIRST_SUPERDIAMOND_TIME) {
+                startGeneratingSuperDiamonds = true;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void autogenerate() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - penguinsTime > penguinTimeRate) {
             penguinsTime = currentTime;
-            penguinTimeRate = random.nextInt()%1000 + 2500;
-            elements.add(new Penguin(game, randomX(), randomY()));
+            generateNewPenguins(1);
+        }
+        if (currentTime - diamondsTime > diamondsTimeRate) {
+            diamondsTime = currentTime;
+            generateNewDiamonds(1);
         }
     }
 

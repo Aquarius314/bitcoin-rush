@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.elements.GameElement;
+import com.game.elements.Penguin;
 import com.game.elements.Plane;
 import com.game.elements.Spikes;
 import com.game.ui.GameInputProcessor;
@@ -14,6 +15,7 @@ import com.game.utils.Renderer;
 import com.game.utils.SoundManager;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class JumpGame extends ApplicationAdapter {
@@ -141,15 +143,14 @@ public class JumpGame extends ApplicationAdapter {
 	}
 
 	private void removeInactiveElements() {
-	    ArrayList<com.game.elements.GameElement> inactives = new ArrayList<com.game.elements.GameElement>();
+	    ArrayList<GameElement> inactives = new ArrayList<com.game.elements.GameElement>();
 	    for (GameElement element : gameElements) {
-	        if (!element.isActive()) {
+	        if (element.needsRefreshing() || !element.isActive()) {
 	            inactives.add(element);
             }
         }
         gameElements.removeAll(inactives);
-	    generator.generateNewDiamonds(inactives.size());
-	    generator.autogenerateNewPenguins();
+	    generator.autogenerate();
     }
 
     public SoundManager getSoundManager() {
@@ -162,6 +163,16 @@ public class JumpGame extends ApplicationAdapter {
 
     public Plane getPlane() {
 	    return plane;
+    }
+
+    public List<Penguin> getPenguins() {
+        LinkedList<Penguin> penguins = new LinkedList<Penguin>();
+	    for(GameElement g : gameElements) {
+	        if (g.getClass().equals(Penguin.class)) {
+	            penguins.add((Penguin)g);
+            }
+        }
+        return penguins;
     }
 
 	@Override

@@ -27,9 +27,7 @@ public class InGameMenuInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println("TOUCHED!");
-        System.out.println(screenX + " " + screenY);
-        parent.handleTouch(screenX, screenY);
+        parent.handleTouch();
         return false;
     }
 

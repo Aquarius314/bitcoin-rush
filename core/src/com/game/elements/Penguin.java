@@ -1,11 +1,11 @@
 package com.game.elements;
 
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.async.AsyncTask;
 import com.game.JumpGame;
 import com.game.utils.Renderer;
 
-/**
- * Created by jakub on 03.06.18.
- */
+import java.util.Random;
 
 public class Penguin extends Flying {
 
@@ -24,7 +24,14 @@ public class Penguin extends Flying {
     public void collideWith(Plane plane) {
         active = false;
         plane.die();
-        game.getSoundManager().getAsset("penguin_rip1.mp3").play();
+        playSound();
+    }
+
+    protected void playSound() {
+        Sound sound = game.getSoundManager().getAsset("penguin_rip1.mp3");
+        long id = sound.play();
+        float pitch = (new Random().nextInt()%6)/10.0f;
+        sound.setPitch(id, 1.2f + pitch);
     }
 
     @Override
@@ -36,6 +43,12 @@ public class Penguin extends Flying {
             state = state%statesNumber;
         }
         renderer.image(getImageName(), getCenterX(), getCenterY());
+    }
+
+    @Override
+    public void kill() {
+        super.kill();
+        playSound();
     }
 
     @Override

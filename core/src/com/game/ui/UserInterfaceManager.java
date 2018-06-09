@@ -22,7 +22,7 @@ public class UserInterfaceManager {
         buttons = new LinkedList<Button>();
         float x = Gdx.graphics.getWidth() - 200;
         float y = Gdx.graphics.getHeight() - 180;
-        buttons.add(new Button("retry.png", x, y, 200, 100) {
+        buttons.add(new Button("STOP", x, y, 200, 100) {
             @Override
             public void onClick() {
                 if(game.getGameState() == 1) {

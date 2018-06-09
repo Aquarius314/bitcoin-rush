@@ -8,9 +8,4 @@ public class Cloud extends Flying {
         super(game, x, y);
         imageName = "cloud1.png";
     }
-
-    @Override
-    public void refresh() {
-        super.refresh();
-    }
 }

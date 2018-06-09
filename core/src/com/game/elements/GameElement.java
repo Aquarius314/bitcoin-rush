@@ -67,8 +67,8 @@ public abstract class GameElement implements Active {
         return getY() + getHeight() < 0;
     }
 
-    public void refresh() {
-        // nothing by default
+    public void kill() {
+        active = false;
     }
 
     public void collideWith(Plane plane) {

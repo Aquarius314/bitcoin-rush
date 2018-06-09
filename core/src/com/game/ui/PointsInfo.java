@@ -21,6 +21,6 @@ public class PointsInfo implements UserInterface {
 
     @Override
     public void display(Renderer renderer) {
-        renderer.text("$: " + points, 10, Gdx.graphics.getHeight() - 100, 3);
+        renderer.text("$: " + points, 10, Gdx.graphics.getHeight() - 100);
     }
 }

@@ -19,12 +19,4 @@ public abstract class Flying extends GameElement {
         this.y -= speed;
     }
 
-    @Override
-    public void refresh() {
-        Random random = new Random();
-        y = Gdx.graphics.getHeight() + random.nextInt()%100 + getHeight();
-        x = random.nextInt()%(Gdx.graphics.getWidth() - 100) + 50;
-        speed = random.nextInt()%4 + 7;
-    }
-
 }
