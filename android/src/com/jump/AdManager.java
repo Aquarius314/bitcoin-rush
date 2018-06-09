@@ -13,10 +13,6 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
-/**
- * Created by jakub on 02.06.18.
- */
-
 public class AdManager {
 
     protected final String ADMOB_APP_UID = "ca-app-pub-5700920242888376~6807377351";
